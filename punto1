@@ -1,0 +1,197 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+// contructor por defecto
+class Complejo
+{
+ //double real_part, img_part;
+ private:
+   double real_part;
+   double img_part;
+
+ public:
+    Complejo();//constructor por defecto
+    Complejo(double real,double imagine);//constructor parametrizado
+    Complejo(const Complejo &complejito);//constructor copia
+    ~Complejo();//destructor
+    void setReal_part(double real);
+    double getReal_part();
+    void setImg_part(double imagine);
+    double getImg_part();
+    void printNumber();
+    Complejo suma(Complejo num2);
+    Complejo resta(Complejo num2);
+    Complejo multiplicacion(Complejo num2);
+    Complejo Division(Complejo num2);
+
+};
+
+// getters && setters
+
+void Complejo::setReal_part(double real){real_part = real;}
+
+void Complejo:: setImg_part(double imagine){img_part = imagine;}
+
+double Complejo:: getReal_part(){return real_part;}
+
+double Complejo :: getImg_part(){return img_part;}
+
+
+//Metodos
+
+Complejo Complejo:: suma(Complejo num2){
+  Complejo resultado;
+  resultado.setReal_part(num2.getReal_part()+getReal_part());
+  resultado.setImg_part(num2.getImg_part()+getImg_part());
+  return resultado;
+}
+
+Complejo Complejo::resta(Complejo num2){
+  Complejo resultado;
+  resultado.setReal_part(num2.getReal_part()-getReal_part());
+  resultado.setImg_part(num2.getImg_part()-getImg_part());
+  return resultado;
+}
+
+Complejo Complejo:: multiplicacion(Complejo num2){
+    double real= ((getReal_part()*num2.getReal_part())-(getImg_part()*num2.getImg_part()));
+    double imagine= getReal_part()*num2.getImg_part()+getImg_part()*num2.getReal_part();//(ac-bd)+(ad+bc)i
+   Complejo resultado;
+   resultado.setReal_part(real);
+   resultado.setImg_part(imagine);
+   return resultado;
+
+}
+
+Complejo Complejo::Division(Complejo num2){
+    double real=(getReal_part()*num2.getReal_part()+ getImg_part()*num2.getImg_part())/(num2.getReal_part()*num2.getReal_part())+(num2.getImg_part()*num2.getImg_part()); //(ac+bd)/(c^2+d^2)
+    double imagine=(getImg_part()*num2.getReal_part()-getReal_part()*num2.getImg_part())/(num2.getReal_part()*num2.getReal_part())+(num2.getImg_part()*num2.getImg_part());//(bc-ad)/(c^2+d^2)i
+    Complejo resultado;
+    resultado.setReal_part(real);
+    resultado.setImg_part(imagine);
+    return resultado;
+
+}
+void Complejo::printNumber(){
+    cout<<getReal_part()<<" + "<<getImg_part()<<"i"<<endl;
+}
+//Constructores
+//constructor por defecto
+Complejo::Complejo(){
+    setReal_part(0.0);
+    setImg_part(0.0);
+}
+//constructor parametrizado
+Complejo::Complejo(double real, double imagine){
+  setReal_part(real);
+  setImg_part(imagine);
+}
+//constructor de copia
+Complejo::Complejo(const Complejo &complejito):real_part(complejito.real_part), img_part(complejito.img_part){}
+
+
+//Destructor
+Complejo::~Complejo(){
+  cout<<"Complejo destruido!"<<endl;
+}
+
+int main() {
+
+  Complejo complex1,complex2,result;
+  int option = 5000000;
+  int option2 = 0;
+  double real1,real2,imagine1,imagine2;
+
+
+  while(option2 == 0
+        ){
+      do{
+        cout<< "Seleccione una opcion"<<endl;
+        cout<<"0. sumar dos numeros complejos"<<endl;
+        cout<<"1. resstar dos numeros complejos"<<endl;
+        cout<<"2. multiplicar dos numeros complejos"<<endl;
+        cout<<"3. dividir dos numeros complejos"<<endl;
+        cout<<endl;
+        cin>>option;
+      }while(option !=0 && option != 1 && option != 2 && option != 3);
+
+
+
+
+  switch(option){
+  case 0:
+      cout<<"parte real del numero 1:"<<endl;
+      cin>>real1;
+      cout<<"parte imaginaria del numero1: "<<endl;
+      cin>>imagine1;
+      cout<<"parte real del numero 2:"<<endl;
+      cin>>real2;
+      cout<<"parte imaginaria del numero2: "<<endl;
+      cin>>imagine2;
+      complex1 = Complejo(real1,imagine1);
+      complex2 =Complejo(real2,imagine2);
+      //complex1.setImg_part(imagine1);
+      //complex1.setReal_part(real1);
+      //complex2.setImg_part(imagine2);
+      //complex2.setReal_part(real2);
+      result = Complejo();
+      result = complex1.suma(complex2);
+      result.printNumber();
+      break;
+  case 1:
+      cout<<"parte real del numero 1:"<<endl;
+      cin>>real1;
+      cout<<"parte imaginaria del numero1: "<<endl;
+      cin>>imagine1;
+      cout<<"parte real del numero 2:"<<endl;
+      cin>>real2;
+      cout<<"parte imaginaria del numero2: "<<endl;
+      cin>>imagine2;
+      complex1 = Complejo(real1,imagine1);
+      complex2 =Complejo(real2,imagine2);
+      result = Complejo();
+      result = complex1.resta(complex2);
+      result.printNumber();
+      break;
+
+  case 2:
+      cout<<"parte real del numero 1:"<<endl;
+      cin>>real1;
+      cout<<"parte imaginaria del numero1: "<<endl;
+      cin>>imagine1;
+      cout<<"parte real del numero 2:"<<endl;
+      cin>>real2;
+      cout<<"parte imaginaria del numero2: "<<endl;
+      cin>>imagine2;
+      complex1 = Complejo(real1,imagine1);
+      complex2 =Complejo(real2,imagine2);
+      result = Complejo();
+      result = complex1.multiplicacion(complex2);
+      result.printNumber();
+      break;
+  case 3:
+      cout<<"parte real del numero 1:"<<endl;
+      cin>>real1;
+      cout<<"parte imaginaria del numero1: "<<endl;
+      cin>>imagine1;
+      cout<<"parte real del numero 2:"<<endl;
+      cin>>real2;
+      cout<<"parte imaginaria del numero2: "<<endl;
+      cin>>imagine2;
+      complex1 = Complejo(real1,imagine1);
+      complex2 =Complejo(real2,imagine2);
+      result = Complejo();
+      result = complex1.Division(complex2);
+      result.printNumber();
+      break;
+
+
+  }
+  cout<<"desea volver a realizar una operacion?"<<endl;
+  cout<<"0. si"<<endl;
+  cout<<"1. no"<<endl;
+  cin >> option2;
+  }
+
+}
+
