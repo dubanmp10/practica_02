@@ -1,0 +1,394 @@
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+const double PI= 3.141592;
+
+class Vertice{
+private:
+    double x;
+    double y;
+public:
+   Vertice();//constructor por defecto
+   Vertice(double x,double y);//constructor parametrizado
+   Vertice(const Vertice &vert);//constructor copia
+   void devuelveCoordenadas()const;
+   void setX(double x2);
+   void setY(double y2);
+   double getX();
+   double getY();
+   double getDistance(Vertice v1, Vertice v2);
+
+};
+
+//CONSTGUCTORES
+//por defecto
+Vertice::Vertice(){
+    x=0;
+    y=0;
+
+}
+
+//constructor parametrizado
+Vertice::Vertice(double x2, double y2){
+  setX(x2);
+  setY(y2);
+}
+//constructor de copia
+Vertice::Vertice(const Vertice &vert):x(vert.x), y(vert.y){}
+
+//GETTERS && SETTERS
+
+
+void Vertice::setX(double x2){x= x2;}
+
+void Vertice:: setY(double y2){y = y2;}
+
+double Vertice:: getX(){return x;}
+
+double Vertice :: getY(){return y;}
+
+
+//metodos
+void Vertice::devuelveCoordenadas()const{
+    cout<<"Coordenada x: "<<x<<", Coordenada y: "<<y<<endl;
+}
+double Vertice::getDistance(Vertice v1, Vertice v2){
+    double d;
+    d = sqrt(pow(v1.getX()-v2.getX(),2)+pow(v1.getY()-v2.getY(),2));
+    return d;
+}
+
+
+
+//----------  CLASE CIRCULO-------------
+
+class Circulo{
+private:
+    double r;
+    Vertice vertice;
+    Circulo(double x, double y , double radio);
+public:
+
+    double perimetro();
+    double area();
+    double getR();
+    void setR(double ratio);
+    static Circulo makeCirculo(double x, double y, double radio){
+        return Circulo(x,y,radio);
+    }
+};
+Circulo::Circulo(double x, double y, double radio){
+    vertice = Vertice(x,y);
+    Vertice v = Vertice(0,0);
+    setR(vertice.getDistance(vertice,v));
+}
+
+double Circulo::getR(){
+    return r;
+}
+void Circulo::setR(double ratio){
+    r = ratio;
+}
+double Circulo::perimetro(){
+    double result = 2*PI*getR();
+    return result;
+}
+double Circulo::area(){
+    double result = PI*getR()*getR();
+    return result;
+}
+
+
+//----------  CLASE TRIANGULO-------------
+
+class Triangulo{
+private:
+    double side1,side2,side3;
+    Vertice vertice1,vertice2,vertice3;
+    Triangulo(int x1,int y1,int x2,int y2, int x3,int y3);
+public:
+
+    double perimetro();
+    double area();
+    double getSideL();
+    double getSideR();
+    double getSideD();
+
+    static Triangulo makeTriangulo(int x1,int y1,int x2,int y2, int x3,int y3){
+        return Triangulo(x1,y1,x2,y2,x3,y3);
+    }
+};
+Triangulo::Triangulo(int x1,int y1,int x2,int y2, int x3,int y3){
+    vertice1.setX(x1);
+    vertice1.setY(y1);
+    vertice2.setX(x2);
+    vertice2.setY(y2);
+    vertice3.setX(x3);
+    vertice3.setY(y3);
+    side1 = vertice1.getDistance(vertice1,vertice2);
+    side2 = vertice2.getDistance(vertice2,vertice3);
+    side3 = vertice3.getDistance(vertice3,vertice1);
+}
+double Triangulo::getSideL(){
+    return side1;
+}
+
+double Triangulo::getSideR(){
+    return side2;
+}
+
+double Triangulo::getSideD(){
+    return side3;
+}
+
+double Triangulo::perimetro(){
+    double result = side1+side2+side3;
+    return result;
+}
+double Triangulo::area(){
+    double result = side3*(pow(side1,2)-pow(side3/2,2))/2;
+    return result;
+}
+
+
+// -------------CLASE RECTANGULO----------
+class Rectangulo{
+private:
+    double side1,side2,side3,side4;
+    Vertice vertice1,vertice2,vertice3, vertice4;
+   Rectangulo( int x1,int y1,int x2,int y2, int x3,int y3, int x4, int y4);
+public:
+
+    double perimetro();
+    double area();
+    double getSideVertical();
+    double getSideHorizontal();
+
+    static Rectangulo makeRectangulo( int x1,int y1,int x2,int y2, int x3,int y3, int x4, int y4){
+        return Rectangulo(x1,y1,x2,y2,x3,y3,x4,y4);
+    }
+};
+Rectangulo::Rectangulo( int x1,int y1,int x2,int y2, int x3,int y3, int x4, int y4){
+    vertice1.setX(x1);
+    vertice1.setY(y1);
+    vertice2.setX(x2);
+    vertice2.setY(y2);
+    vertice3.setX(x3);
+    vertice3.setY(y3);
+    vertice4.setX(x4);
+    vertice4.setY(y4);
+    side1 = vertice1.getDistance(vertice1,vertice2);
+    side2 = vertice2.getDistance(vertice1,vertice3);
+    side3 = vertice3.getDistance(vertice2,vertice4);
+    side4 = vertice4.getDistance(vertice3,vertice4);
+}
+double Rectangulo::getSideVertical(){
+    return side1;
+}
+double Rectangulo::getSideHorizontal(){
+    return side2;
+}
+double Rectangulo::perimetro(){
+    double result = 2*(side1+side2);
+    return result;
+}
+double Rectangulo::area(){
+    double result = side1*side2;
+    return result;
+}
+
+
+
+//----------  CLASE PENTAGONO-------------
+
+class Pentagono{
+private:
+    double side;
+   Pentagono (double side1);
+public:
+
+    double perimetro();
+    double area();
+    double getSide();
+    static Pentagono makePentagono(double side1){
+        return Pentagono(side1);
+    }
+};
+Pentagono::Pentagono(double side1){
+    side = side1;
+}
+double Pentagono::getSide(){
+    return side;
+}
+
+double Pentagono::perimetro(){
+    double result = 5*side ;
+    return result;
+}
+double Pentagono::area(){
+    double result = (side*5*(side/1.45))/2; //a=(N*L*ap)/2
+    return result;
+}
+
+//---------------CLASE HEXAGONO-----------------
+
+
+class Hexagono{
+private:
+    double side1;
+   Hexagono(double side);
+public:
+
+    double perimetro();
+    double area();
+    double getSide();
+    static Hexagono makeHexagono(double side){
+        return Hexagono(side);
+    }
+};
+Hexagono::Hexagono(double side){
+   side1 = side;
+}
+double Hexagono::getSide(){
+    return side1;
+}
+
+double Hexagono::perimetro(){
+    double result = 6*side1;
+    return result;
+}
+double Hexagono::area(){
+    double result = (side1*6*(side1/1.15))/2; //a=(N*L*ap)/2
+    return result;
+}
+
+class ConstructorFigura{
+public:
+    static Circulo builder(Vertice vertice1){}
+    static Triangulo builder(Vertice vertice1,Vertice vertice2,Vertice vertice3){}
+    static Rectangulo builder(Vertice vertice1,Vertice vertice2,Vertice vertice3,Vertice vertice4){}
+    static Pentagono builder(double side, string type){}
+    static Pentagono builder(double side){}
+};
+static Circulo builder(Vertice vertice1){
+    Circulo circulo = Circulo::makeCirculo(vertice1.getX(),vertice1.getY(),sqrt(pow(vertice1.getX(),2)+pow(vertice1.getY(),2)));
+    cout<<"Perimetro del circulo: "<<circulo.perimetro()<<"\nArea del triangulo: "<<circulo.area()<<endl;
+    return circulo;
+};
+static Triangulo builder(Vertice v1,Vertice v2,Vertice v3){
+    Triangulo triangulo = Triangulo::makeTriangulo(v1.getX(),v1.getY(),v2.getX(),v2.getY(),v3.getX(),v3.getY());
+    cout<<"Perimetro del triangulo: "<<triangulo.perimetro()<<"\nArea del triangulo: "<<triangulo.area()<<endl;
+    return triangulo;
+};
+static Rectangulo builder(Vertice v1,Vertice v2,Vertice v3, Vertice v4 ){
+    Rectangulo rectangulo= Rectangulo::makeRectangulo(v1.getX(),v1.getY(),v2.getX(),v2.getY(),v3.getX(),v3.getY(),v4.getX(),v4.getY());
+    cout<<"Perimetro del rectangulo: "<<rectangulo.perimetro()<<"\nArea del rectangulo: "<<rectangulo.area()<<endl;
+    return rectangulo;
+};
+
+static Pentagono builder(double side, string type ){
+    Pentagono pentagono = Pentagono::makePentagono(side);
+    cout<<"Perimetro del pentagono: "<<pentagono.perimetro()<<"\nArea del pentagono: "<<pentagono.area()<<endl;
+    return pentagono;
+};
+
+static Hexagono builder(double side ){
+    Hexagono hexagono = Hexagono::makeHexagono(side);
+    cout<<"Perimetro del hexagono: "<<hexagono.perimetro()<<"\nArea del hexago: "<<hexagono.area()<<endl;
+    return hexagono;
+};
+
+int main(){
+    int opcion1,opcion2;
+    double x,y;
+    do {
+        do {
+            cout<<"Elija una opcion:"<<endl;
+            cout<<"1. crear un Circulo"<<endl;
+            cout<<"2. crear un Triangulo"<<endl;
+            cout<<"3. crear un Rectangulo"<<endl;
+            cout<<"4. crear un Pentagono"<<endl;
+            cout<<"5. crear un Hexagono"<<endl;
+            cin>>opcion1;
+        } while (opcion1!=1 && opcion1!=2 && opcion1!=3 && opcion1!=4 && opcion1!=5);
+        switch (opcion1){
+        case 1:{
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y; "<<endl;
+            cin>>y;
+            Vertice vertice(x,y);
+            builder(vertice);
+            break;
+        }
+        case 2:{
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 1; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 1; "<<endl;
+            cin>>y;
+            Vertice vertice1(x,y);
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 2; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 2; "<<endl;
+            cin>>y;
+            Vertice vertice2(x,y);
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 3; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 3; "<<endl;
+            cin>>y;
+            Vertice vertice3(x,y);
+            builder(vertice1,vertice2,vertice3);
+            break;}
+        case 3:{
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 1; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 1; "<<endl;
+            cin>>y;
+            Vertice vertice1(x,y);
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 2; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 2; "<<endl;
+            cin>>y;
+            Vertice vertice2(x,y);
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 3; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 3; "<<endl;
+            cin>>y;
+            Vertice vertice3(x,y);
+            cout<<"Ingrese coordenadas del vertice"<<endl;
+            cout<<"Ingrese la coordenada x del vertice 4; "<<endl;
+            cin>>x;
+            cout<<"Ingrese la coordenada y del vertice 4; "<<endl;
+            cin>>y;
+            Vertice vertice4(x,y);
+            builder(vertice1,vertice2,vertice3, vertice4);
+            break;}
+        case 4:{
+            double side;
+            cout<<"Ingrese lado del pentagono"<<endl;
+            cin>>side;
+            builder(side,"hola, esto no se utiliza para nada, gracias.");
+            break;
+        }
+        case 5:{
+            double side;
+            cout<<"Ingrese lado del hexagono"<<endl;
+            cin>>side;
+            builder(side);
+            break;
+        }
+        }
+        cout<<"Desea crear otra figura?"<<endl;
+        cout<<"0. si"<<endl;
+        cout<<"Cualquier otra tecla: no"<<endl;
+        cin>>opcion2;
+   }while(opcion2==0 );
+}
